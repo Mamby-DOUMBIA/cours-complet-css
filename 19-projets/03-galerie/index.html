@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet 03 — Galerie d'images moderne</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fond: #0d1117;
+      --fond-carte: #161b22;
+      --bordure: #30363d;
+      --texte: #e6edf3;
+      --texte-doux: #8b949e;
+      --accent: #58a6ff;
+      --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    .header {
+      text-align: center;
+      padding: 64px 20px 48px;
+    }
+    .header__titre {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #58a6ff, #a371f7, #f78166);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 12px;
+    }
+    .header__sous-titre {
+      color: var(--texte-doux);
+      font-size: 1.125rem;
+      margin: 0 0 32px;
+    }
+
+    /* ─── Filtres ─── */
+    .filtres {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filtre-btn {
+      padding: 8px 20px;
+      border: 1px solid var(--bordure);
+      background: transparent;
+      color: var(--texte-doux);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    .filtre-btn:hover,
+    .filtre-btn.actif {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* ─── Galerie Masonry avec Grid ─── */
+    .galerie {
+      columns: 4 200px;
+      column-gap: 16px;
+      padding: 48px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .galerie__item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .galerie__image {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Overlay au survol */
+    .galerie__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.85) 0%,
+        rgba(0,0,0,0.3) 50%,
+        transparent 100%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+
+    .galerie__item:hover .galerie__overlay { opacity: 1; }
+    .galerie__item:hover .galerie__image { transform: scale(1.05); }
+
+    .galerie__titre {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 0 4px;
+      transform: translateY(8px);
+      transition: transform 0.35s ease;
+    }
+    .galerie__categorie {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 500;
+      transform: translateY(8px);
+      transition: transform 0.35s ease 0.04s;
+    }
+    .galerie__item:hover .galerie__titre,
+    .galerie__item:hover .galerie__categorie {
+      transform: translateY(0);
+    }
+
+    .galerie__actions {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .galerie__item:hover .galerie__actions { opacity: 1; }
+
+    .galerie__btn {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 1rem;
+    }
+    .galerie__btn:hover { background: rgba(255,255,255,0.3); }
+
+    /* Placeholder images colorées */
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .placeholder--tall  { height: 380px; }
+    .placeholder--med   { height: 260px; }
+    .placeholder--short { height: 200px; }
+    .placeholder--wide  { height: 220px; }
+
+    /* Couleurs de fond des placeholders */
+    .c1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .c2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .c3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .c4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+    .c5 { background: linear-gradient(135deg, #fa709a, #fee140); }
+    .c6 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .c7 { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+    .c8 { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+    .c9 { background: linear-gradient(135deg, #fd746c, #ff9068); }
+    .c10 { background: linear-gradient(135deg, #30cfd0, #330867); }
+    .c11 { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+    .c12 { background: linear-gradient(135deg, #5ee7df, #b490ca); }
+
+    /* ─── Lightbox ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .lightbox__contenu {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .lightbox.active .lightbox__contenu { transform: scale(1); }
+    .lightbox__fermer {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox__fermer:hover { background: rgba(255,255,255,0.2); }
+
+    /* ─── Footer ─── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--texte-doux);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--bordure);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__titre">Galerie Photo</h1>
+    <p class="header__sous-titre">Une collection de photographies et illustrations modernes</p>
+    <div class="filtres">
+      <button class="filtre-btn actif">Tout</button>
+      <button class="filtre-btn">Nature</button>
+      <button class="filtre-btn">Architecture</button>
+      <button class="filtre-btn">Portraits</button>
+      <button class="filtre-btn">Abstrait</button>
+      <button class="filtre-btn">Voyage</button>
+    </div>
+  </header>
+
+  <main class="galerie">
+
+    <!-- Item 1 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--tall c1">🌌</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Nuit étoilée</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn" title="Aimer">♥</button>
+        <button class="galerie__btn" title="Télécharger">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--med c2">🌸</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Fleurs de cerisier</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn" title="Aimer">♥</button>
+        <button class="galerie__btn" title="Télécharger">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--short c3">🏙️</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Skyline de nuit</h3>
+        <span class="galerie__categorie">Architecture</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--med c4">🌊</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Vagues océan</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--wide c5">🗼</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Tour Eiffel dorée</h3>
+        <span class="galerie__categorie">Voyage</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--tall c6">🦋</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Papillon abstrait</h3>
+        <span class="galerie__categorie">Abstrait</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 7 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--med c7">🏔️</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Sommets enneigés</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 8 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--short c8">🌅</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Lever de soleil</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 9 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--med c9">🌺</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Fleur tropicale</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 10 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--tall c10">🌃</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Ville la nuit</h3>
+        <span class="galerie__categorie">Architecture</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 11 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--wide c11">🌈</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Arc-en-ciel</h3>
+        <span class="galerie__categorie">Abstrait</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+    <!-- Item 12 -->
+    <div class="galerie__item">
+      <div class="galerie__image placeholder placeholder--med c12">🦚</div>
+      <div class="galerie__overlay">
+        <h3 class="galerie__titre">Paon royal</h3>
+        <span class="galerie__categorie">Nature</span>
+      </div>
+      <div class="galerie__actions">
+        <button class="galerie__btn">♥</button>
+        <button class="galerie__btn">↓</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__fermer" onclick="document.getElementById('lightbox').classList.remove('active')">✕</button>
+    <div class="lightbox__contenu" id="lightboxContenu"></div>
+  </div>
+
+  <footer>
+    <p>Formation CSS Complète — Projet 03 — Galerie d'images moderne</p>
+  </footer>
+
+  <script>
+    // Filtres
+    document.querySelectorAll('.filtre-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
+        btn.classList.add('actif');
+      });
+    });
+
+    // Lightbox
+    document.querySelectorAll('.galerie__item').forEach(item => {
+      item.addEventListener('click', e => {
+        if (e.target.closest('.galerie__btn')) return;
+        const clone = item.querySelector('.galerie__image').cloneNode(true);
+        clone.style.maxWidth = '80vw';
+        clone.style.maxHeight = '80vh';
+        clone.style.objectFit = 'contain';
+        document.getElementById('lightboxContenu').innerHTML = '';
+        document.getElementById('lightboxContenu').appendChild(clone);
+        document.getElementById('lightbox').classList.add('active');
+      });
+    });
+
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
+    });
+  </script>
+
+</body>
+</html>

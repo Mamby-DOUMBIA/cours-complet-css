@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet 01 — Page Web complète | AgenceWeb</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="header" id="haut-page">
+    <nav class="nav">
+      <div class="nav__logo">AgenceWeb</div>
+      <ul class="nav__liste">
+        <li class="nav__element"><a class="nav__lien nav__lien--actif" href="#haut-page">Accueil</a></li>
+        <li class="nav__element"><a class="nav__lien" href="#services">Services</a></li>
+        <li class="nav__element"><a class="nav__lien" href="#realisations">Réalisations</a></li>
+        <li class="nav__element"><a class="nav__lien" href="#equipe">Équipe</a></li>
+        <li class="nav__element"><a class="nav__lien nav__lien--cta" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__contenu">
+      <span class="hero__etiquette">✦ Agence Web Premium</span>
+      <h1 class="hero__titre">Nous créons des<br>expériences Web<br><em>mémorables</em></h1>
+      <p class="hero__description">
+        Nous combinons design moderne, technologies de pointe et stratégie digitale
+        pour propulser votre présence en ligne.
+      </p>
+      <div class="hero__actions">
+        <a href="#contact" class="bouton bouton--principal">Démarrer un projet</a>
+        <a href="#realisations" class="bouton bouton--fantome">Voir nos travaux</a>
+      </div>
+      <div class="hero__stats">
+        <div class="stat">
+          <span class="stat__chiffre">150+</span>
+          <span class="stat__label">Projets livrés</span>
+        </div>
+        <div class="stat">
+          <span class="stat__chiffre">8 ans</span>
+          <span class="stat__label">D'expérience</span>
+        </div>
+        <div class="stat">
+          <span class="stat__chiffre">98%</span>
+          <span class="stat__label">Clients satisfaits</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero__visuel">
+      <div class="hero__image-placeholder">
+        <div class="forme forme--1"></div>
+        <div class="forme forme--2"></div>
+        <div class="forme forme--3"></div>
+        <div class="carte-flottante">
+          <span class="carte-flottante__icone">🚀</span>
+          <span class="carte-flottante__texte">Projet lancé !</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="conteneur">
+      <div class="section__entete">
+        <span class="section__etiquette">Ce que nous faisons</span>
+        <h2 class="section__titre">Nos services</h2>
+        <p class="section__sous-titre">
+          Une offre complète pour accompagner votre transformation digitale.
+        </p>
+      </div>
+      <div class="services__grille">
+        <div class="service-carte">
+          <div class="service-carte__icone">🎨</div>
+          <h3 class="service-carte__titre">Design UI/UX</h3>
+          <p class="service-carte__description">
+            Des interfaces belles, intuitives et centrées sur l'expérience utilisateur.
+            Wireframes, maquettes et prototypes interactifs.
+          </p>
+          <ul class="service-carte__liste">
+            <li>Maquettes Figma</li>
+            <li>Design System</li>
+            <li>Tests utilisateurs</li>
+          </ul>
+        </div>
+        <div class="service-carte service-carte--vedette">
+          <div class="service-carte__badge">Populaire</div>
+          <div class="service-carte__icone">💻</div>
+          <h3 class="service-carte__titre">Développement Web</h3>
+          <p class="service-carte__description">
+            Sites et applications Web performants, accessibles et optimisés pour le référencement.
+          </p>
+          <ul class="service-carte__liste">
+            <li>Sites vitrine</li>
+            <li>Applications Web</li>
+            <li>E-commerce</li>
+          </ul>
+        </div>
+        <div class="service-carte">
+          <div class="service-carte__icone">📈</div>
+          <h3 class="service-carte__titre">Marketing Digital</h3>
+          <p class="service-carte__description">
+            Stratégies SEO, campagnes publicitaires et création de contenu pour booster votre visibilité.
+          </p>
+          <ul class="service-carte__liste">
+            <li>SEO / Référencement</li>
+            <li>Google Ads</li>
+            <li>Réseaux sociaux</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RÉALISATIONS -->
+  <section class="section section--gris" id="realisations">
+    <div class="conteneur">
+      <div class="section__entete">
+        <span class="section__etiquette">Notre portfolio</span>
+        <h2 class="section__titre">Réalisations récentes</h2>
+      </div>
+      <div class="portfolio__grille">
+        <article class="projet-carte projet-carte--grand">
+          <div class="projet-carte__image" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <span class="projet-carte__emoji">🛒</span>
+          </div>
+          <div class="projet-carte__corps">
+            <span class="projet-carte__categorie">E-commerce</span>
+            <h3 class="projet-carte__titre">BoutiqueMode.fr</h3>
+            <p class="projet-carte__description">Refonte complète d'une boutique de mode avec +180% de conversions.</p>
+            <a href="#" class="projet-carte__lien">Voir le projet →</a>
+          </div>
+        </article>
+        <article class="projet-carte">
+          <div class="projet-carte__image" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+            <span class="projet-carte__emoji">🏥</span>
+          </div>
+          <div class="projet-carte__corps">
+            <span class="projet-carte__categorie">Santé</span>
+            <h3 class="projet-carte__titre">MédiConsult</h3>
+            <p class="projet-carte__description">Plateforme de téléconsultation médicale.</p>
+            <a href="#" class="projet-carte__lien">Voir le projet →</a>
+          </div>
+        </article>
+        <article class="projet-carte">
+          <div class="projet-carte__image" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+            <span class="projet-carte__emoji">🏨</span>
+          </div>
+          <div class="projet-carte__corps">
+            <span class="projet-carte__categorie">Hôtellerie</span>
+            <h3 class="projet-carte__titre">HôtelLuxe Paris</h3>
+            <p class="projet-carte__description">Site de réservation haut de gamme.</p>
+            <a href="#" class="projet-carte__lien">Voir le projet →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉQUIPE -->
+  <section class="section" id="equipe">
+    <div class="conteneur">
+      <div class="section__entete">
+        <span class="section__etiquette">Les humains derrière les écrans</span>
+        <h2 class="section__titre">Notre équipe</h2>
+      </div>
+      <div class="equipe__grille">
+        <div class="membre">
+          <div class="membre__avatar membre__avatar--bleu">ML</div>
+          <h3 class="membre__nom">Marie Leblanc</h3>
+          <p class="membre__role">Directrice Créative</p>
+          <p class="membre__bio">10 ans d'expérience en design d'interfaces.</p>
+        </div>
+        <div class="membre">
+          <div class="membre__avatar membre__avatar--violet">TD</div>
+          <h3 class="membre__nom">Thomas Dubois</h3>
+          <p class="membre__role">Lead Développeur</p>
+          <p class="membre__bio">Expert React et architecture front-end.</p>
+        </div>
+        <div class="membre">
+          <div class="membre__avatar membre__avatar--vert">SR</div>
+          <h3 class="membre__nom">Sophie Richard</h3>
+          <p class="membre__role">Stratège SEO</p>
+          <p class="membre__bio">Spécialiste référencement et performance.</p>
+        </div>
+        <div class="membre">
+          <div class="membre__avatar membre__avatar--orange">PM</div>
+          <h3 class="membre__nom">Pierre Martin</h3>
+          <p class="membre__role">Chef de Projet</p>
+          <p class="membre__bio">Garant de la qualité et des délais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section--sombre" id="contact">
+    <div class="conteneur">
+      <div class="contact__grille">
+        <div class="contact__info">
+          <span class="section__etiquette section__etiquette--clair">Travaillons ensemble</span>
+          <h2 class="section__titre section__titre--clair">Prêt à lancer<br>votre projet ?</h2>
+          <p class="contact__description">
+            Décrivez-nous votre projet et nous vous recontacterons
+            sous 24h pour en discuter.
+          </p>
+          <div class="contact__coordonnees">
+            <p>📧 bonjour@agenceweb.fr</p>
+            <p>📞 +33 1 23 45 67 89</p>
+            <p>📍 Paris, France</p>
+          </div>
+        </div>
+        <form class="formulaire-contact">
+          <div class="formulaire__groupe">
+            <label class="formulaire__label" for="nom">Votre nom</label>
+            <input class="formulaire__input" type="text" id="nom" placeholder="Jean Dupont">
+          </div>
+          <div class="formulaire__groupe">
+            <label class="formulaire__label" for="email">Votre email</label>
+            <input class="formulaire__input" type="email" id="email" placeholder="jean@exemple.fr">
+          </div>
+          <div class="formulaire__groupe">
+            <label class="formulaire__label" for="message">Votre projet</label>
+            <textarea class="formulaire__input formulaire__textarea" id="message" placeholder="Décrivez votre projet en quelques lignes..."></textarea>
+          </div>
+          <button type="submit" class="bouton bouton--principal bouton--large">
+            Envoyer le message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="conteneur">
+      <div class="footer__grille">
+        <div class="footer__colonne">
+          <div class="footer__logo">AgenceWeb</div>
+          <p class="footer__description">Votre partenaire digital de confiance depuis 2016.</p>
+        </div>
+        <div class="footer__colonne">
+          <h4 class="footer__titre">Services</h4>
+          <ul class="footer__liste">
+            <li><a href="#">Design UI/UX</a></li>
+            <li><a href="#">Développement Web</a></li>
+            <li><a href="#">Marketing Digital</a></li>
+          </ul>
+        </div>
+        <div class="footer__colonne">
+          <h4 class="footer__titre">Entreprise</h4>
+          <ul class="footer__liste">
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Carrières</a></li>
+          </ul>
+        </div>
+        <div class="footer__colonne">
+          <h4 class="footer__titre">Légal</h4>
+          <ul class="footer__liste">
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="#">CGU</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bas">
+        <p>© 2024 AgenceWeb. Tous droits réservés.</p>
+        <p>Formation CSS Complète — Projet 01</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

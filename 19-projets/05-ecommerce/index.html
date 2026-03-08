@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet 05 — Page Produit E-commerce</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fond: #ffffff;
+      --fond-gris: #f8fafc;
+      --texte: #1e293b;
+      --texte-doux: #64748b;
+      --bordure: #e2e8f0;
+      --accent: #0ea5e9;
+      --accent-sombre: #0284c7;
+      --vert: #10b981;
+      --rouge: #ef4444;
+      --or: #f59e0b;
+      --r: 14px;
+      --transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ─── Navbar ─── */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 64px;
+      border-bottom: 1px solid var(--bordure);
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 100;
+    }
+    .navbar__logo { font-size: 1.25rem; font-weight: 800; color: var(--texte); }
+    .navbar__liens { display: flex; gap: 4px; }
+    .navbar__lien {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: var(--texte-doux);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .navbar__lien:hover { background: var(--fond-gris); color: var(--texte); }
+    .navbar__droite { display: flex; align-items: center; gap: 8px; }
+    .navbar__icone {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--bordure);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+    .navbar__icone:hover { background: var(--fond-gris); }
+    .navbar__badge {
+      position: absolute;
+      top: -4px; right: -4px;
+      background: var(--rouge);
+      color: white;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── Fil d'Ariane ─── */
+    .fil-ariane {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 40px;
+      font-size: 0.8rem;
+      color: var(--texte-doux);
+      border-bottom: 1px solid var(--bordure);
+    }
+    .fil-ariane a { color: var(--texte-doux); text-decoration: none; }
+    .fil-ariane a:hover { color: var(--accent); }
+    .fil-ariane span { color: var(--texte); font-weight: 500; }
+
+    /* ─── Produit principal ─── */
+    .produit {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    /* ─── Galerie images ─── */
+    .galerie-produit { display: flex; flex-direction: column; gap: 16px; }
+
+    .galerie__principale {
+      background: var(--fond-gris);
+      border-radius: var(--r);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .galerie__badge-promo {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--rouge);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+    }
+
+    .galerie__miniatures {
+      display: flex;
+      gap: 12px;
+    }
+    .miniature {
+      flex: 1;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--fond-gris);
+    }
+    .miniature:hover, .miniature.actif {
+      border-color: var(--accent);
+      background: rgba(14,165,233,0.06);
+    }
+
+    /* ─── Infos produit ─── */
+    .infos-produit { display: flex; flex-direction: column; gap: 20px; }
+
+    .produit__marque {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+
+    .produit__nom {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    /* Étoiles */
+    .evaluation {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .etoiles { color: var(--or); font-size: 1rem; letter-spacing: 2px; }
+    .evaluation__note { font-weight: 700; font-size: 0.9rem; }
+    .evaluation__avis { color: var(--texte-doux); font-size: 0.85rem; }
+    .evaluation__avis a { color: var(--accent); text-decoration: none; }
+
+    /* Prix */
+    .prix {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .prix__actuel {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--texte);
+    }
+    .prix__ancien {
+      font-size: 1.25rem;
+      color: var(--texte-doux);
+      text-decoration: line-through;
+    }
+    .prix__economie {
+      background: rgba(16,185,129,0.12);
+      color: var(--vert);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    /* Disponibilité */
+    .disponibilite {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--vert);
+    }
+    .disponibilite::before {
+      content: "";
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--vert);
+      display: inline-block;
+    }
+
+    /* Description */
+    .produit__description {
+      color: var(--texte-doux);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Séparateur */
+    .separateur { height: 1px; background: var(--bordure); }
+
+    /* Couleurs */
+    .option-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--texte);
+      margin-bottom: 10px;
+    }
+
+    .couleurs {
+      display: flex;
+      gap: 10px;
+    }
+    .couleur {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      outline-offset: 3px;
+    }
+    .couleur:hover, .couleur.actif {
+      outline: 2px solid var(--accent);
+    }
+
+    /* Tailles */
+    .tailles {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .taille {
+      min-width: 52px;
+      height: 44px;
+      border: 1.5px solid var(--bordure);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 0 12px;
+    }
+    .taille:hover { border-color: var(--accent); color: var(--accent); }
+    .taille.actif { border-color: var(--accent); background: var(--accent); color: white; }
+    .taille.epuisee {
+      opacity: 0.4;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    /* Quantité */
+    .quantite-selector {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--bordure);
+      border-radius: 10px;
+      overflow: hidden;
+      width: fit-content;
+    }
+    .quantite__btn {
+      width: 44px; height: 44px;
+      border: none;
+      background: var(--fond-gris);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--texte);
+    }
+    .quantite__btn:hover { background: var(--bordure); }
+    .quantite__valeur {
+      width: 56px;
+      height: 44px;
+      border: none;
+      border-left: 1.5px solid var(--bordure);
+      border-right: 1.5px solid var(--bordure);
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      background: white;
+      color: var(--texte);
+    }
+
+    /* Boutons d'action */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+    .btn-panier {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-panier:hover {
+      background: var(--accent-sombre);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(14,165,233,0.35);
+    }
+    .btn-favoris {
+      background: var(--fond-gris);
+      color: var(--texte);
+      border: 1.5px solid var(--bordure);
+    }
+    .btn-favoris:hover { background: var(--bordure); }
+
+    /* Garanties */
+    .garanties {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background: var(--fond-gris);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .garantie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+    }
+    .garantie__icone { font-size: 1.5rem; }
+    .garantie__texte { font-size: 0.75rem; color: var(--texte-doux); font-weight: 500; }
+
+    /* ─── Section avis ─── */
+    .section-avis {
+      background: var(--fond-gris);
+      padding: 60px 40px;
+      border-top: 1px solid var(--bordure);
+    }
+    .avis-grille {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .avis-titre {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 32px;
+    }
+    .avis-liste {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .avis-carte {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid var(--bordure);
+    }
+    .avis__entete {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .avis__auteur { font-weight: 700; font-size: 0.9rem; }
+    .avis__date { font-size: 0.8rem; color: var(--texte-doux); }
+    .avis__etoiles { color: var(--or); font-size: 0.9rem; margin-bottom: 8px; }
+    .avis__texte { font-size: 0.875rem; color: var(--texte-doux); line-height: 1.6; margin: 0; }
+
+    /* ─── Produits similaires ─── */
+    .produits-similaires {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .similaires-titre {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 32px;
+    }
+    .similaires-grille {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .produit-mini {
+      border: 1px solid var(--bordure);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .produit-mini:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .produit-mini__image {
+      background: var(--fond-gris);
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+    .produit-mini__infos { padding: 14px 16px; }
+    .produit-mini__nom { font-size: 0.9rem; font-weight: 600; margin: 0 0 4px; }
+    .produit-mini__prix { font-size: 1rem; font-weight: 800; color: var(--accent); }
+
+    /* ─── Footer ─── */
+    footer {
+      background: #0f172a;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.8rem;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1024px) {
+      .similaires-grille { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .produit { grid-template-columns: 1fr; gap: 32px; padding: 24px; }
+      .avis-liste { grid-template-columns: 1fr; }
+      .fil-ariane, .navbar { padding: 0 20px; }
+      .section-avis, .produits-similaires { padding: 40px 20px; }
+    }
+    @media (max-width: 480px) {
+      .similaires-grille { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar__logo">🛍️ ShopMode</div>
+    <div class="navbar__liens">
+      <span class="navbar__lien">Femmes</span>
+      <span class="navbar__lien">Hommes</span>
+      <span class="navbar__lien">Enfants</span>
+      <span class="navbar__lien">Soldes</span>
+    </div>
+    <div class="navbar__droite">
+      <div class="navbar__icone">🔍</div>
+      <div class="navbar__icone">👤</div>
+      <div class="navbar__icone">
+        🛒
+        <span class="navbar__badge">3</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Fil d'Ariane -->
+  <nav class="fil-ariane">
+    <a href="#">Accueil</a> /
+    <a href="#">Femmes</a> /
+    <a href="#">Chaussures</a> /
+    <span>Sneakers Air Max Pro</span>
+  </nav>
+
+  <!-- Produit -->
+  <section class="produit">
+
+    <!-- Galerie -->
+    <div class="galerie-produit">
+      <div class="galerie__principale">
+        <span class="galerie__badge-promo">-25%</span>
+        👟
+      </div>
+      <div class="galerie__miniatures">
+        <div class="miniature actif">👟</div>
+        <div class="miniature">👠</div>
+        <div class="miniature">👞</div>
+        <div class="miniature">🥿</div>
+      </div>
+    </div>
+
+    <!-- Infos -->
+    <div class="infos-produit">
+
+      <div class="produit__marque">Nike × Collection 2024</div>
+      <h1 class="produit__nom">Sneakers Air Max Pro Édition Limitée</h1>
+
+      <div class="evaluation">
+        <span class="etoiles">★★★★★</span>
+        <span class="evaluation__note">4,8</span>
+        <span class="evaluation__avis">(<a href="#">247 avis</a>)</span>
+      </div>
+
+      <div class="prix">
+        <span class="prix__actuel">149,99 €</span>
+        <span class="prix__ancien">199,99 €</span>
+        <span class="prix__economie">Économisez 50 €</span>
+      </div>
+
+      <div class="disponibilite">En stock — Expédition sous 24h</div>
+
+      <p class="produit__description">
+        Les Sneakers Air Max Pro allient confort exceptionnel et style avant-gardiste.
+        Semelle à coussin d'air visible, tige en mesh respirant et design épuré pour
+        toutes les occasions.
+      </p>
+
+      <div class="separateur"></div>
+
+      <!-- Couleurs -->
+      <div>
+        <div class="option-label">Couleur : <strong>Blanc / Bleu</strong></div>
+        <div class="couleurs">
+          <div class="couleur actif" style="background:#e2e8f0; border-color:#e2e8f0;" title="Blanc"></div>
+          <div class="couleur" style="background:#1e293b;" title="Noir"></div>
+          <div class="couleur" style="background:#3b82f6;" title="Bleu"></div>
+          <div class="couleur" style="background:#ef4444;" title="Rouge"></div>
+          <div class="couleur" style="background:#10b981;" title="Vert"></div>
+        </div>
+      </div>
+
+      <!-- Tailles -->
+      <div>
+        <div class="option-label">Pointure : <a href="#" style="color:var(--accent);font-size:0.8rem;font-weight:400;">Guide des tailles</a></div>
+        <div class="tailles">
+          <div class="taille epuisee">36</div>
+          <div class="taille">37</div>
+          <div class="taille">38</div>
+          <div class="taille actif">39</div>
+          <div class="taille">40</div>
+          <div class="taille">41</div>
+          <div class="taille">42</div>
+          <div class="taille epuisee">43</div>
+        </div>
+      </div>
+
+      <!-- Quantité -->
+      <div>
+        <div class="option-label">Quantité</div>
+        <div class="quantite-selector">
+          <button class="quantite__btn" onclick="this.nextElementSibling.value = Math.max(1, +this.nextElementSibling.value - 1)">−</button>
+          <input class="quantite__valeur" type="number" value="1" min="1" max="10">
+          <button class="quantite__btn" onclick="this.previousElementSibling.value = Math.min(10, +this.previousElementSibling.value + 1)">+</button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn btn-panier">🛒 Ajouter au panier</button>
+        <button class="btn btn-favoris">♡ Ajouter aux favoris</button>
+      </div>
+
+      <!-- Garanties -->
+      <div class="garanties">
+        <div class="garantie">
+          <span class="garantie__icone">🚚</span>
+          <span class="garantie__texte">Livraison gratuite dès 60 €</span>
+        </div>
+        <div class="garantie">
+          <span class="garantie__icone">↩️</span>
+          <span class="garantie__texte">Retour gratuit 30 jours</span>
+        </div>
+        <div class="garantie">
+          <span class="garantie__icone">🔒</span>
+          <span class="garantie__texte">Paiement 100% sécurisé</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Avis clients -->
+  <section class="section-avis">
+    <div class="avis-grille">
+      <h2 class="avis-titre">⭐ Avis clients (247)</h2>
+      <div class="avis-liste">
+        <div class="avis-carte">
+          <div class="avis__entete">
+            <span class="avis__auteur">Marie L.</span>
+            <span class="avis__date">12 déc. 2024</span>
+          </div>
+          <div class="avis__etoiles">★★★★★</div>
+          <p class="avis__texte">Parfaites ! Confortables dès la première utilisation, le coussin d'air est incroyable. Je les recommande vivement.</p>
+        </div>
+        <div class="avis-carte">
+          <div class="avis__entete">
+            <span class="avis__auteur">Thomas D.</span>
+            <span class="avis__date">8 déc. 2024</span>
+          </div>
+          <div class="avis__etoiles">★★★★☆</div>
+          <p class="avis__texte">Très belles sneakers, qualité premium. J'enlève une étoile car la pointure est un peu grande, prenez une taille en dessous.</p>
+        </div>
+        <div class="avis-carte">
+          <div class="avis__entete">
+            <span class="avis__auteur">Sophie R.</span>
+            <span class="avis__date">3 déc. 2024</span>
+          </div>
+          <div class="avis__etoiles">★★★★★</div>
+          <p class="avis__texte">J'adore ! Idéales pour le sport comme pour le quotidien. Livraison rapide et emballage soigné.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produits similaires -->
+  <section class="produits-similaires">
+    <h2 class="similaires-titre">Vous aimerez aussi</h2>
+    <div class="similaires-grille">
+      <div class="produit-mini">
+        <div class="produit-mini__image">👟</div>
+        <div class="produit-mini__infos">
+          <div class="produit-mini__nom">Air Max Classic</div>
+          <div class="produit-mini__prix">129,99 €</div>
+        </div>
+      </div>
+      <div class="produit-mini">
+        <div class="produit-mini__image">👠</div>
+        <div class="produit-mini__infos">
+          <div class="produit-mini__nom">Talons Élégance</div>
+          <div class="produit-mini__prix">89,99 €</div>
+        </div>
+      </div>
+      <div class="produit-mini">
+        <div class="produit-mini__image">🥿</div>
+        <div class="produit-mini__infos">
+          <div class="produit-mini__nom">Mocassins Confort</div>
+          <div class="produit-mini__prix">79,99 €</div>
+        </div>
+      </div>
+      <div class="produit-mini">
+        <div class="produit-mini__image">👞</div>
+        <div class="produit-mini__infos">
+          <div class="produit-mini__nom">Derbies Premium</div>
+          <div class="produit-mini__prix">109,99 €</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Formation CSS Complète — Projet 05 — Page Produit E-commerce</p>
+  </footer>
+
+  <script>
+    // Sélection des miniatures
+    document.querySelectorAll('.miniature').forEach(m => {
+      m.addEventListener('click', () => {
+        document.querySelectorAll('.miniature').forEach(x => x.classList.remove('actif'));
+        m.classList.add('actif');
+      });
+    });
+
+    // Sélection des couleurs
+    document.querySelectorAll('.couleur').forEach(c => {
+      c.addEventListener('click', () => {
+        document.querySelectorAll('.couleur').forEach(x => x.classList.remove('actif'));
+        c.classList.add('actif');
+      });
+    });
+
+    // Sélection des tailles
+    document.querySelectorAll('.taille:not(.epuisee)').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.taille').forEach(x => x.classList.remove('actif'));
+        t.classList.add('actif');
+      });
+    });
+  </script>
+
+</body>
+</html>

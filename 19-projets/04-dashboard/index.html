@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet 04 — Dashboard Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sidebar-w: 240px;
+      --fond:       #f1f5f9;
+      --fond-carte: #ffffff;
+      --texte:      #1e293b;
+      --texte-doux: #64748b;
+      --bordure:    #e2e8f0;
+      --bleu:       #3b82f6;
+      --vert:       #10b981;
+      --orange:     #f59e0b;
+      --rouge:      #ef4444;
+      --violet:     #8b5cf6;
+      --sidebar-bg: #1e293b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      overflow-y: auto;
+    }
+
+    .sidebar__logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: white;
+      padding: 0 8px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar__logo-icone {
+      width: 32px; height: 32px;
+      background: var(--bleu);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .sidebar__section { margin-bottom: 24px; }
+    .sidebar__section-titre {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      padding: 0 8px 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.08); color: white; }
+    .nav-item.actif { background: var(--bleu); color: white; }
+    .nav-item__icone { font-size: 1rem; width: 20px; text-align: center; }
+    .nav-item__badge {
+      margin-left: auto;
+      background: var(--rouge);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    /* ─── Main ─── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Topbar ─── */
+    .topbar {
+      background: white;
+      border-bottom: 1px solid var(--bordure);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar__titre { font-size: 1.125rem; font-weight: 700; }
+
+    .topbar__droite {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar__recherche {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--fond);
+      border: 1px solid var(--bordure);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.875rem;
+      color: var(--texte-doux);
+    }
+
+    .topbar__avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--bleu), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ─── Contenu ─── */
+    .contenu { padding: 32px; flex: 1; }
+
+    /* ─── KPI Cards ─── */
+    .kpi-grille {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-carte {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid var(--bordure);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .kpi-carte:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .kpi-carte__entete {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .kpi-carte__label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--texte-doux);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .kpi-carte__icone {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .icone-bleu   { background: rgba(59,130,246,0.12); }
+    .icone-vert   { background: rgba(16,185,129,0.12); }
+    .icone-orange { background: rgba(245,158,11,0.12); }
+    .icone-violet { background: rgba(139,92,246,0.12); }
+
+    .kpi-carte__valeur {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--texte);
+      line-height: 1;
+    }
+
+    .kpi-carte__evolution {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .evolution-hausse { color: var(--vert); }
+    .evolution-baisse { color: var(--rouge); }
+
+    /* ─── Grille principale ─── */
+    .tableau-bord {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* ─── Carte widget ─── */
+    .widget {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid var(--bordure);
+      overflow: hidden;
+    }
+
+    .widget__entete {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--bordure);
+    }
+    .widget__titre { font-size: 1rem; font-weight: 700; }
+    .widget__action {
+      font-size: 0.8rem;
+      color: var(--bleu);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* ─── Graphique simulé (barres CSS) ─── */
+    .graphique { padding: 24px; }
+    .graphique__barres {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      height: 160px;
+    }
+    .barre-groupe { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .barre {
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+      transition: opacity 0.2s;
+      min-height: 4px;
+    }
+    .barre:hover { opacity: 0.8; }
+    .barre-groupe__label { font-size: 0.7rem; color: var(--texte-doux); font-weight: 500; }
+
+    /* ─── Tableau des commandes ─── */
+    .tableau { width: 100%; border-collapse: collapse; }
+    .tableau th {
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--texte-doux);
+      padding: 12px 24px;
+      background: var(--fond);
+      border-bottom: 1px solid var(--bordure);
+    }
+    .tableau td {
+      padding: 14px 24px;
+      font-size: 0.875rem;
+      border-bottom: 1px solid var(--bordure);
+    }
+    .tableau tr:last-child td { border-bottom: none; }
+    .tableau tr:hover td { background: var(--fond); }
+
+    /* ─── Badge statuts ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge--succes   { background: rgba(16,185,129,0.12); color: var(--vert); }
+    .badge--attente  { background: rgba(245,158,11,0.12); color: var(--orange); }
+    .badge--erreur   { background: rgba(239,68,68,0.12);  color: var(--rouge); }
+    .badge--info     { background: rgba(59,130,246,0.12); color: var(--bleu); }
+
+    /* ─── Widget activité ─── */
+    .activite { padding: 4px 0; }
+    .activite-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--bordure);
+    }
+    .activite-item:last-child { border-bottom: none; }
+    .activite__avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: white;
+    }
+    .activite__texte { flex: 1; }
+    .activite__texte strong { font-size: 0.875rem; color: var(--texte); }
+    .activite__texte p { font-size: 0.8rem; color: var(--texte-doux); margin: 2px 0 0; }
+    .activite__temps { font-size: 0.75rem; color: var(--texte-doux); white-space: nowrap; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1200px) {
+      .kpi-grille { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .tableau-bord { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .kpi-grille { grid-template-columns: 1fr; }
+      .contenu { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      <div class="sidebar__logo-icone">📊</div>
+      AdminPro
+    </div>
+
+    <div class="sidebar__section">
+      <div class="sidebar__section-titre">Principal</div>
+      <div class="nav-item actif">
+        <span class="nav-item__icone">🏠</span> Tableau de bord
+      </div>
+      <div class="nav-item">
+        <span class="nav-item__icone">📦</span> Commandes
+        <span class="nav-item__badge">12</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-item__icone">👤</span> Clients
+      </div>
+      <div class="nav-item">
+        <span class="nav-item__icone">🛍️</span> Produits
+      </div>
+      <div class="nav-item">
+        <span class="nav-item__icone">📈</span> Analytiques
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <div class="sidebar__section-titre">Gestion</div>
+      <div class="nav-item">
+        <span class="nav-item__icone">💳</span> Facturation
+      </div>
+      <div class="nav-item">
+        <span class="nav-item__icone">🔔</span> Notifications
+        <span class="nav-item__badge">3</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-item__icone">⚙️</span> Paramètres
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar__titre">Tableau de bord</div>
+      <div class="topbar__droite">
+        <div class="topbar__recherche">🔍 Rechercher...</div>
+        <div class="topbar__avatar">ML</div>
+      </div>
+    </header>
+
+    <!-- Contenu -->
+    <main class="contenu">
+
+      <!-- KPIs -->
+      <div class="kpi-grille">
+        <div class="kpi-carte">
+          <div class="kpi-carte__entete">
+            <span class="kpi-carte__label">Chiffre d'affaires</span>
+            <div class="kpi-carte__icone icone-bleu">💰</div>
+          </div>
+          <div class="kpi-carte__valeur">84 250 €</div>
+          <div class="kpi-carte__evolution evolution-hausse">
+            ↑ +12,5% vs mois dernier
+          </div>
+        </div>
+        <div class="kpi-carte">
+          <div class="kpi-carte__entete">
+            <span class="kpi-carte__label">Commandes</span>
+            <div class="kpi-carte__icone icone-vert">📦</div>
+          </div>
+          <div class="kpi-carte__valeur">1 248</div>
+          <div class="kpi-carte__evolution evolution-hausse">↑ +8,2% vs mois dernier</div>
+        </div>
+        <div class="kpi-carte">
+          <div class="kpi-carte__entete">
+            <span class="kpi-carte__label">Nouveaux clients</span>
+            <div class="kpi-carte__icone icone-orange">👥</div>
+          </div>
+          <div class="kpi-carte__valeur">324</div>
+          <div class="kpi-carte__evolution evolution-baisse">↓ -3,1% vs mois dernier</div>
+        </div>
+        <div class="kpi-carte">
+          <div class="kpi-carte__entete">
+            <span class="kpi-carte__label">Taux satisfaction</span>
+            <div class="kpi-carte__icone icone-violet">⭐</div>
+          </div>
+          <div class="kpi-carte__valeur">96,4%</div>
+          <div class="kpi-carte__evolution evolution-hausse">↑ +1,2% vs mois dernier</div>
+        </div>
+      </div>
+
+      <!-- Graphique + Activité -->
+      <div class="tableau-bord">
+        <div class="widget">
+          <div class="widget__entete">
+            <span class="widget__titre">Revenus mensuels</span>
+            <span class="widget__action">Exporter →</span>
+          </div>
+          <div class="graphique">
+            <div class="graphique__barres">
+              <div class="barre-groupe">
+                <div class="barre" style="height:60%; background:var(--bleu);"></div>
+                <span class="barre-groupe__label">Jan</span>
+              </div>
+              <div class="barre-groupe">
+                <div class="barre" style="height:75%; background:var(--bleu);"></div>
+                <span class="barre-groupe__label">Fév</span>
+              </div>
+              <div class="barre-groupe">
+                <div class="barre" style="height:55%; background:var(--bleu);"></div>
+                <span class="barre-groupe__label">Mar</span>
+              </div>
+              <div class="barre-groupe">
+                <div class="barre" style="height:85%; background:var(--bleu);"></div>
+                <span class="barre-groupe__label">Avr</span>
+              </div>
+              <div class="barre-groupe">
+                <div class="barre" style="height:70%; background:var(--bleu);"></div>
+                <span class="barre-groupe__label">Mai</span>
+              </div>
+              <div class="barre-groupe">
+                <div class="barre" style="height:90%; background:linear-gradient(to top, var(--bleu), var(--violet));"></div>
+                <span class="barre-groupe__label">Juin</span>
+              </div>
+              <div class="barre-groupe">
+                <div class="barre" style="height:65%; background:var(--bordure);"></div>
+                <span class="barre-groupe__label">Juil</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget__entete">
+            <span class="widget__titre">Activité récente</span>
+            <span class="widget__action">Tout voir</span>
+          </div>
+          <div class="activite">
+            <div class="activite-item">
+              <div class="activite__avatar" style="background:var(--bleu);">ML</div>
+              <div class="activite__texte">
+                <strong>Marie Leblanc</strong>
+                <p>Nouvelle commande #5482</p>
+              </div>
+              <span class="activite__temps">2 min</span>
+            </div>
+            <div class="activite-item">
+              <div class="activite__avatar" style="background:var(--vert);">TD</div>
+              <div class="activite__texte">
+                <strong>Thomas Dubois</strong>
+                <p>Paiement confirmé</p>
+              </div>
+              <span class="activite__temps">15 min</span>
+            </div>
+            <div class="activite-item">
+              <div class="activite__avatar" style="background:var(--orange);">SR</div>
+              <div class="activite__texte">
+                <strong>Sophie Richard</strong>
+                <p>Ticket support ouvert</p>
+              </div>
+              <span class="activite__temps">1h</span>
+            </div>
+            <div class="activite-item">
+              <div class="activite__avatar" style="background:var(--violet);">PM</div>
+              <div class="activite__texte">
+                <strong>Pierre Martin</strong>
+                <p>Commande expédiée</p>
+              </div>
+              <span class="activite__temps">2h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau des commandes -->
+      <div class="widget">
+        <div class="widget__entete">
+          <span class="widget__titre">Dernières commandes</span>
+          <span class="widget__action">Voir toutes les commandes</span>
+        </div>
+        <table class="tableau">
+          <thead>
+            <tr>
+              <th>Commande</th>
+              <th>Client</th>
+              <th>Date</th>
+              <th>Montant</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>#5489</strong></td>
+              <td>Alice Bernard</td>
+              <td>15 déc. 2024</td>
+              <td><strong>189,00 €</strong></td>
+              <td><span class="badge badge--succes">Livré</span></td>
+            </tr>
+            <tr>
+              <td><strong>#5488</strong></td>
+              <td>Marc Dumont</td>
+              <td>14 déc. 2024</td>
+              <td><strong>432,50 €</strong></td>
+              <td><span class="badge badge--info">Expédié</span></td>
+            </tr>
+            <tr>
+              <td><strong>#5487</strong></td>
+              <td>Claire Moreau</td>
+              <td>14 déc. 2024</td>
+              <td><strong>67,90 €</strong></td>
+              <td><span class="badge badge--attente">En attente</span></td>
+            </tr>
+            <tr>
+              <td><strong>#5486</strong></td>
+              <td>Julien Petit</td>
+              <td>13 déc. 2024</td>
+              <td><strong>1 240,00 €</strong></td>
+              <td><span class="badge badge--succes">Livré</span></td>
+            </tr>
+            <tr>
+              <td><strong>#5485</strong></td>
+              <td>Emma Leclerc</td>
+              <td>13 déc. 2024</td>
+              <td><strong>88,50 €</strong></td>
+              <td><span class="badge badge--erreur">Annulé</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

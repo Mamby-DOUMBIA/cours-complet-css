@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 01 — Démonstration CSS</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+  <header>
+    <h1>Module 01 — Introduction au CSS</h1>
+    <p>Démonstration des trois méthodes d'intégration CSS</p>
+  </header>
+
+  <main>
+
+    <section class="methode">
+      <h2>Méthode 1 : CSS Externe (ce fichier)</h2>
+      <p>
+        Les styles de cette page sont définis dans le fichier <code>demo.css</code>,
+        lié dans le <code>&lt;head&gt;</code> avec la balise <code>&lt;link&gt;</code>.
+        C'est la méthode <strong>recommandée</strong> dans la grande majorité des cas.
+      </p>
+      <div class="code-block">
+        <code>&lt;link rel="stylesheet" href="demo.css"&gt;</code>
+      </div>
+    </section>
+
+    <section class="methode">
+      <h2>Méthode 2 : CSS Inline</h2>
+      <p>Ce paragraphe utilise du CSS inline :</p>
+      <!-- Exemple de CSS inline -->
+      <p style="color: #e74c3c; background-color: #ffeaea; padding: 12px; border-left: 4px solid #e74c3c; border-radius: 4px;">
+        Je suis stylisé avec l'attribut <code>style=""</code> directement sur la balise HTML.
+        Mon style ne peut pas être réutilisé sur d'autres éléments.
+      </p>
+    </section>
+
+    <section class="methode">
+      <h2>La relation HTML / CSS / JavaScript</h2>
+      <div class="trio">
+        <div class="carte html">
+          <h3>HTML</h3>
+          <p>Structure &amp; Contenu</p>
+          <span class="badge">Squelette</span>
+        </div>
+        <div class="carte css">
+          <h3>CSS</h3>
+          <p>Présentation &amp; Style</p>
+          <span class="badge">Apparence</span>
+        </div>
+        <div class="carte js">
+          <h3>JavaScript</h3>
+          <p>Comportement &amp; Dynamisme</p>
+          <span class="badge">Actions</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="methode">
+      <h2>Évolution du CSS</h2>
+      <ul class="timeline">
+        <li><strong>1996</strong> — CSS1 : Couleurs, polices, alignement</li>
+        <li><strong>1998</strong> — CSS2 : Positionnement, médias</li>
+        <li><strong>2004</strong> — CSS2.1 : Corrections et précisions</li>
+        <li><strong>2010+</strong> — CSS3 : Animations, Flexbox, Grid, Variables</li>
+        <li><strong>2020+</strong> — CSS Moderne : Container Queries, :has(), nesting</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Formation CSS Complète — Module 01 — Démonstration</p>
+  </footer>
+
+</body>
+</html>
