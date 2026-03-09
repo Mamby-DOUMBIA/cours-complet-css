@@ -133,8 +133,7 @@ css-course/
 ### Étape 1 : Cloner le dépôt
 
 ```bash
-git clone https://github.com/Mamby-DOUMBIA/cours-complet-css
-.git
+git clone https://github.com/Mamby-DOUMBIA/cours-complet-css.git
 cd cours-complet-css
 ```
 
