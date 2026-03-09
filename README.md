@@ -133,8 +133,9 @@ css-course/
 ### Étape 1 : Cloner le dépôt
 
 ```bash
-git clone https://github.com/votre-nom/css-course.git
-cd css-course
+git clone https://github.com/Mamby-DOUMBIA/cours-complet-css
+.git
+cd cours-complet-css
 ```
 
 ### Étape 2 : Ouvrir dans VS Code
@@ -177,8 +178,8 @@ Commencez par le module `01-introduction` et progressez dans l'ordre.
 
 ## 📝 Licence
 
-Ce cours est distribué sous licence **MIT**. Vous êtes libre de l'utiliser, le modifier et le redistribuer à condition de mentionner l'auteur original.
+Ce cours est distribué sous licence **MIT**. Vous êtes libre de l'utiliser, le modifier et le redistribuer à condition de mentionner Mamby DOUMBIA, l'auteur original.
 
 ---
 
-*Formation CSS — Dernière mise à jour : 2024*
+*Formation CSS — Dernière mise à jour : 2026*
