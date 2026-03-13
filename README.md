@@ -88,43 +88,43 @@ css-course/
 
 | Module | Sujet | Durée estimée |
 |--------|-------|---------------|
-| 01 | Introduction au CSS | 2h |
-| 02 | Environnement de développement | 1h |
-| 03 | Syntaxe et structure CSS | 3h |
-| 04 | Sélecteurs CSS | 4h |
-| 05 | Modèle de boîte (Box Model) | 4h |
-| 06 | Couleurs et arrière-plans | 3h |
-| 07 | Typographie Web | 3h |
+| 01 | [Introduction au CSS](01-introduction/README.md) | 2h |
+| 02 | [Environnement de développement](02-environnement/README.md) | 1h |
+| 03 | [Syntaxe et structure CSS](03-syntaxe/README.md) | 3h |
+| 04 | [Sélecteurs CSS](04-selecteurs/README.md) | 4h |
+| 05 | [Modèle de boîte (Box Model)](05-box-model/README.md) | 4h |
+| 06 | [Couleurs et arrière-plans](06-couleurs/README.md) | 3h |
+| 07 | [Typographie Web](07-typographie/README.md) | 3h |
 
 ### 🟡 Niveau Intermédiaire (Modules 8 à 12)
 > Durée estimée : 3 à 4 semaines
 
 | Module | Sujet | Durée estimée |
 |--------|-------|---------------|
-| 08 | Mise en page CSS | 4h |
-| 09 | Flexbox | 6h |
-| 10 | CSS Grid | 6h |
-| 11 | Responsive Design | 5h |
-| 12 | Animations et transitions | 4h |
+| 08 | [Mise en page CSS](08-mise-en-page/README.md) | 4h |
+| 09 | [Flexbox](09-flexbox/README.md) | 6h |
+| 10 | [CSS Grid](10-grid/README.md) | 6h |
+| 11 | [Responsive Design](11-responsive/README.md) | 5h |
+| 12 | [Animations et transitions](12-animations/README.md) | 4h |
 
 ### 🔴 Niveau Avancé (Modules 13 à 17)
 > Durée estimée : 2 à 3 semaines
 
 | Module | Sujet | Durée estimée |
 |--------|-------|---------------|
-| 13 | Variables CSS | 3h |
-| 14 | Architecture CSS | 4h |
-| 15 | Performance CSS | 3h |
-| 16 | CSS avancé | 5h |
-| 17 | Accessibilité et UX | 3h |
+| 13 | [Variables CSS](13-variables/README.md) | 3h |
+| 14 | [Architecture CSS](14-architecture/README.md) | 4h |
+| 15 | [Performance CSS](15-performance/README.md) | 3h |
+| 16 | [CSS avancé](16-css-avance/README.md) | 5h |
+| 17 | [Accessibilité et UX](17-accessibilite/README.md) | 3h |
 
 ### 🟣 Niveau Expert (Modules 18 à 19)
 > Durée estimée : 3 à 4 semaines
 
 | Module | Sujet | Durée estimée |
 |--------|-------|---------------|
-| 18 | Écosystème CSS (Sass, Tailwind…) | 6h |
-| 19 | Projets pratiques complets | 20h+ |
+| 18 | [Écosystème CSS (Sass, Tailwind…)](18-ecosysteme/README.md) | 6h |
+| 19 | [Projets pratiques complets](19-projets/README.md) | 20h+ |
 
 ---
 
